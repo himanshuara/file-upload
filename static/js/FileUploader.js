@@ -12,7 +12,11 @@
 	fileUploader.prototype=(function(){
 		/*Default parameters*/
 		var _defaults={
-			maxFileSize: 2e+6
+			maxFileSize: 2e+6,
+			onFileSelection:null,
+			extraParams:null,
+			url:null,
+			onUploadSuccess:null
 		};
 		var returnObject;
 
@@ -26,6 +30,9 @@
 					else{
 						alert("Problem uploading file");
 						this.value = null;
+					}
+					if(_this.options.onFileSelection){
+						_this.options.onFileSelection.call(window)
 					}
 			}
 			_this.options.submitButton.onclick = function(){
@@ -46,6 +53,9 @@
 			xhr.open('POST', this.options.url, true);
 			xhr.onreadystatechange = function () {
 				  if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+				    if(_this.options.onUploadSuccess){
+				    	_this.options.onUploadSuccess.call(window);
+				    }
 				    alert(xhr.responseText);
 				    _this.options.fileInput.value = null;
 				    _this.options.imgPlaceholder.style.display = "none";

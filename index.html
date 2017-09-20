@@ -18,6 +18,12 @@
 		url:"/api/Upload/",
 		extraParams:{
 			userId:"himanshu.s"
+		},
+		onFileSelection:function(){
+			console.log("file Selected")
+		},
+		onUploadSuccess:function(){
+			console.log("file uploaded")
 		}
 	});
 	(new fileUploader(document.getElementById("file-uploader2"))).init({
