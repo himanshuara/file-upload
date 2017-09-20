@@ -1,11 +1,22 @@
+	/**
+	 * [fileUploader constructor]
+	 * @param  {[DOMElement]} wrapper [DOM element on which file upload needs to be initialized]
+	 * @return {[none]}  
+	 * Author: Himanshu Saraswat       
+	 */
 	function fileUploader(wrapper){
 		this.wrapperElement = wrapper
 	}
+	/*Using revealing prototype pattern to keep implementation details
+	private*/
 	fileUploader.prototype=(function(){
+		/*Default parameters*/
 		var _defaults={
 			maxFileSize: 2e+6
 		};
 		var returnObject;
+
+		/*Method to bind callbacks on the created elements*/
 		function bindCallback(){
 			var _this = this;
 			_this.options.fileInput.onchange= function(){
@@ -21,6 +32,7 @@
 				uploadFile.call(_this);
 			}
 		}
+		/*Method to send selected file to server using ajax*/
 		function uploadFile(){
 			var _this = this;
 			var files = _this.options.fileInput.files,formData,xhr;
@@ -43,7 +55,7 @@
 			xhr.send(formData);
 
 		}
-		
+		/*Method to display preview if the selected file is image*/
 		function displayPreview(){
 			var _this = this;
 			var options = _this.options;
@@ -60,16 +72,19 @@
 	        reader.readAsDataURL(file);
 	    }
 		}
-		function validateFile(){
+		/*Method to validate selected file.*/
+		function validateFile(file){
 			var options = this.options,
-			selectedFile = options.fileInput.files[0];
+			selectedFile = file || options.fileInput.files[0];
 			if(selectedFile.size > options.maxFileSize){
 				return false
 			}
 			return true
 		}
+		/*Method to create HTML elements for upload*/
 		function generateWrapperHTML(){
 			var wrapperElement = this.wrapperElement;
+			wrapperElement.innerHTML = ""
 			var submitButton = document.createElement("input");
 			submitButton.type="button";
 			submitButton.value = "submit";
@@ -86,16 +101,15 @@
 			this.options.submitButton = submitButton;
 			this.options.imgPlaceholder = imgPlaceholder
 		}
+		/*Method to sanitize the options provided*/
 		function validateOptions(options){
 			if(!options || !this.wrapperElement || !options.url){
-				throw "Insufficient options...";
 				return false
 			}
 			return true;
 		}
-		
-		returnObject = {
-			init:function(options){
+		/*Method to initialize the object with the options*/
+		function init(options){
 				if(validateOptions.call(this,options)){
 					this.options = Object.assign({},_defaults,options);
 					generateWrapperHTML.call(this);
@@ -103,14 +117,17 @@
 				}
 				else{
 					this.options = null;
+					throw new Error("Insufficient options...")
 				}
 
-			},
+			}
+		/*Exposing only the init method*/
+		returnObject = {
+			init:init,
 			constructor:fileUploader
 		}
-		/* remove-from-prod */
-		returnObject.validateOptions =validateOptions;
-		returnObject.validateFile =validateFile;
-		/* end-remove-from-prod */
+		/*Used grunt-strip-code npm plugin to expose the private methods for unit testing 
+		only in dev and not in production code*/
+
 		return returnObject
 	}())
