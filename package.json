@@ -1,0 +1,30 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "File Uploader Kayako",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "multer": "^1.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build:prod": "npm config set file-uploader:TARGET PROD && uglifyjs -c hoist_vars=true,unused=false,drop_console=true -m -- ./static/js/FileUploader.js  > ./static/js/FileUploader.min.js"
+  },
+  "keywords": [
+    "File",
+    "uploader"
+  ],
+  "author": "Himanshu Saraswat",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-strip-code": "^1.0.6",
+    "mocha": "^3.5.3"
+  }
+}

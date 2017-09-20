@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Upload files to server </title>
+</head>
+<body>
+    <div class="upload-wrapper" id="file-uploader">
+        
+    </div>
+    <div class="upload-wrapper" id="file-uploader2">
+        
+    </div>
+<script src="static/js/FileUploader.min.js"></script>
+<script>
+(function(){
+	(new fileUploader(document.getElementById("file-uploader"))).init({
+		url:"/api/Upload/",
+		extraParams:{
+			userId:"himanshu.s"
+		}
+	});
+	(new fileUploader(document.getElementById("file-uploader2"))).init({
+		url:"/api/Upload/",
+		extraParams:{
+			userId:"hsaraswat"
+		}
+	});
+}())
+</script>
+</body>
+</html>
