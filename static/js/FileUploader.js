@@ -88,7 +88,6 @@
 		}
 		function validateOptions(options){
 			if(!options || !this.wrapperElement || !options.url){
-				throw "Insufficient options...";
 				return false
 			}
 			return true;
